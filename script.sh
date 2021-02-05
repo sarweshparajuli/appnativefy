@@ -54,6 +54,10 @@ nativefier $url $varname \"$name\"  $varicon \"$icon\" $varinternalurls \"$inter
 OUTDIR=$(dirname $(dirname $(dirname $(readlink -f $(find . -type f -name 'icon.png'))))| head -n 1) 2> /dev/null
 BINNAME=$(basename $(echo $OUTDIR) | cut -d "-" -f 1) 2> /dev/null
 
+
+
+
+
 mkdir -p appdir/usr/bin
 mv "$OUTDIR"/* appdir/usr/bin/
 mkdir -p appdir/usr/share/icons/hicolor/256x256/apps/
@@ -80,21 +84,25 @@ cat > appdir/AppRun <<\EOF
 HERE="$(dirname "$(readlink -f "${0}")")"
 # https://github.com/AppImage/AppImageKit/issues/1039
 if [ $(sysctl kernel.unprivileged_userns_clone | cut -d " " -f 3) != "1" ] ; then
-echo "Working around systems without unprivileged_userns_clone using --no-sandbox"
-exec "${HERE}/usr/bin/nativefied" "$@" --no-sandbox
+  echo "Working around systems without unprivileged_userns_clone using --no-sandbox"
+  exec "${HERE}/usr/bin/nativefied" "$@" --no-sandbox
 else
-exec "${HERE}/usr/bin/nativefied" "$@"
+  exec "${HERE}/usr/bin/nativefied" "$@"
 fi
 EOF
 chmod +x appdir/AppRun
 
-wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - | grep "appimagetool-.*-x86_64.AppImage" | head -n 1 | cut -d '"' -f 2) 2> /dev/null
+wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - | grep "appimagetool-.*-x86_64.AppImage" | head -n 1 | cut -d '"' -f 2)
 chmod +x appimagetool-*.AppImage
-./appimagetool-*.AppImage deploy ./appdir/usr/share/applications/*.desktop 
+./appimagetool-*.AppImage deploy ./appdir/usr/share/applications/*.desktop # Bundle everything expect what comes with the base system
 
 find appdir/ -type f -name '*libnss*' -delete
 
-VERSION=$(date +"%Y%m%d") ./appimagetool-*.AppImage ./appdir 
+VERSION=$(date +"%Y%m%d") ./appimagetool-*.AppImage ./appdir # turn AppDir into AppImage
+
+
+
+
 chmod +x *.AppImage
 rm -rf appdir/ || true  1> /dev/null
 rm -rf appimagetoo*.AppImage 1> /dev/null
