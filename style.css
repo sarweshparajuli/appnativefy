@@ -1,19 +1,33 @@
 ::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
+    height: 10px;
 }
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
 }
- 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #000000; 
-  border-radius: 20px
+    background: #3e3e3e;
+    border: 0px solid transparent;
+    border-radius: 0px;
 }
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+    background: #3e3e3e;
+}
+::-webkit-scrollbar-track:hover {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb:active {
+    background: transparent;
+}
+::-webkit-scrollbar-track:active {
+    background: transparent;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+    border: 0px none transparent;
+    border-radius: 0px;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
 }
