@@ -1,109 +1,96 @@
-#!/bin/bash -ex
-clear
-rm -rf appdir/ || true  
-rm -rf appimagetoo*.AppImage 
-rm  -rf \"\"
-while [ -z "$url" ];
-do
-	clear
-	for i in $(seq $(tput cols)); do echo -n '*'; done;
-    echo "\e[1;31m Nativefier AppImage Maker \e[0m"
-	echo "\e[1;31m Make AppImages from a website using Electron framework and Nativefier to launch it portably. \e[0m"
-	for i in $(seq $(tput cols)); do echo -n '*'; done;
-	read -p 'URL (MANDATORY): ' url
-done
+#!/bin/sh
 
-varname="--name"
-varicon="-i"
-varinternalurls="--internal-urls"
-vararchitecture="-a"
-varuseragent="--user-agent"
-read -p 'Name: ' name
-read -p 'Icon <path> (.png): ' icon
-read -p 'Internal URLs: ' internalurls
-read -p 'User Agent: ' useragent
+SCRIPTPATH="$(
+  cd "$(dirname "$0")" >/dev/null 2>&1
+  pwd -P
+)"
 
-for i in $(seq $(tput cols)); do echo -n '-'; done;
-echo "\e[1;32m Summary \e[0m"
-for i in $(seq $(tput cols)); do echo -n '-'; done;
+###
+# Arg 1 : Command
+# Arg 2 : Install script
+###
+print_cmd_error() {
+  printf "Command not found : $1\n"
+  [ ! -z "$2" ] && printf "Run this command to install : $2\n"
 
-if [ ! -f $varname ] || [ -z "$varname" ]; then
-	echo "\e[1;32m Name not supplied, using site name if found. \e[0m"
-	name=""
-	varname=""
+  exit 1
+}
+
+
+HELPTEXT="Usage :
+  $0 <name> <url> <icon> -- [extra nativefier options]
+
+  <name> : Name of the application
+  <url>  : Url of the webpage to package
+  <icon> : Icon of the appimage"
+
+opts=$(echo $@ | awk -F ' -- ' '{print $1}')
+extra_nativefier_opts=$(echo $@ | awk -F ' -- ' '{print $2}')
+
+name=$(echo $opts | cut -d ' ' -f 1)
+url=$(echo $opts | cut -d ' ' -f 2)
+icon=$(echo $opts | cut -d ' ' -f 3)
+favicongen="https://www.google.com/s2/favicons?sz=64&domain_url="
+icon=$favicongen$url
+if [ -z "$name" -o -z "$url" -o -z "$icon" ]; then
+  printf "$HELPTEXT\n"
+  exit 1
 fi
-if [ ! -f $icon ] || [ -z "$icon" ]; then
-	icon="default/icon.png"
-	echo "\e[1;32m File not found/supplied, using default. \e[0m" $icon
-fi
-if [ ! -f $internalurls ] || [ -z "$internalurls" ]; then
-	echo "\e[1;32m Internal URLs not specified. \e[0m" 
-	internalurl=""
-	varinternalurls=""
-fi
-if [ ! -f $useragent ] || [ -z "$useragent" ]; then
-	echo "\e[1;32m Using default user-agent. \e[0m" 
-	useragent=""
-	varuseragent="--honest"
-fi
+iconname="icon.png"
+wget -c --no-cache "https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/style.css"
+wget -c "https://nodejs.org/dist/v12.16.3/node-v12.16.3-linux-x64.tar.xz"
+tar xf node-*-linux-x64.tar.xz >/dev/null 2>&1
+./node-*-linux-x64/bin/node ./node-*-linux-x64/bin/npm install nativefier -g >/dev/null 2>&1
 
-for i in $(seq $(tput cols)); do echo -n '-'; done;
+(
+  if [ -d "$name.AppDir" ]; then
+    printf "WARNING : \`$name.AppDir\` directory already exists. Re-using AppDir\n"
+  else
+    ./node-*-linux-x64/bin/node ./node-*-linux-x64/bin/nativefier -n "$name" -p linux "$url" --inject "style.css" --user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0" --internal-urls "(.*)" $extra_nativefier_opts  >/dev/null 2>&1
+    mv "$name"-linux-* "$name.AppDir"
+  fi
+  rm style.css
+  cd "$name".AppDir/  
+  
 
-nativefier $url $varname \"$name\"  $varicon \"$icon\" $varinternalurls \"$internalurls\"   $varuseragent \"$useragent\" 2> /dev/null
+  if [[ $icon = http* ]]; then
+    printf "Downloading $iconname : $icon\n" >/dev/null 2>&1
+    wget -q -nv -O $iconname $icon &> /dev/null
+  elif [ -e $icon ]; then
+    printf "Copying $iconname : $icon\n" >/dev/null 2>&1
+    cp $icon ./$iconname
+  else
+    printf "ERROR : Invalid icon url / path. Please provide a http link or a local path"
+    exit 1
+  fi
+  echo 'Use' $name".AppDir/icon.png as icon or," $name".AppDir/resources/app/icon.png"
+  read -p '[1,2]? '$varicon
+  vartrue="1"
+  if [ $varicon == $vartrue ]
+  then
+    rm resources/app/icon.png && cp icon.png resources/app/icon.png
+  else
+    rm icon.png && cp resources/app/icon.png icon.png
+  fi
+  
+  
+  echo "[Desktop Entry]" > $name.desktop
+  echo "Name=$name" >> $name.desktop
+  echo "Exec=AppRun %U" >> $name.desktop
+  echo "Terminal=false" >> $name.desktop
+  echo "Type=Application" >> $name.desktop
+  echo "Icon=${iconname%.*}" >> $name.desktop
+  echo "X-AppImage-Version=1.0.0" >> $name.desktop
+  echo "Categories=Utility;" >> $name.desktop
+  
+  echo "#!/bin/bash" > AppRun
+  echo "exec \$APPDIR/$name" >> AppRun
+  chmod +x ./AppRun
+)
 
-OUTDIR=$(dirname $(dirname $(dirname $(readlink -f $(find . -type f -name 'icon.png'))))| head -n 1) 2> /dev/null
-BINNAME=$(basename $(echo $OUTDIR) | cut -d "-" -f 1) 2> /dev/null
+[ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
+chmod +x /tmp/appimagetool
 
+/tmp/appimagetool "$name.AppDir"
 
-
-
-
-mkdir -p appdir/usr/bin
-mv "$OUTDIR"/* appdir/usr/bin/
-mkdir -p appdir/usr/share/icons/hicolor/256x256/apps/
-cp appdir/usr/bin/resources/app/icon.png appdir/usr/share/icons/hicolor/256x256/apps/
-cp appdir/usr/share/icons/hicolor/256x256/apps/icon.png appdir/
-
-mkdir -p appdir/usr/share/applications/
-cat > appdir/usr/share/applications/nativefied.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Name=$BINNAME
-Comment=$BINNAME produced by Nativefier
-Icon=icon
-Exec=nativefied
-Categories=Network;
-EOF
-
-cp appdir/usr/share/applications/nativefied.desktop appdir/
-
-mv appdir/usr/bin/$BINNAME appdir/usr/bin/nativefied
-
-cat > appdir/AppRun <<\EOF
-#!/bin/bash
-HERE="$(dirname "$(readlink -f "${0}")")"
-# https://github.com/AppImage/AppImageKit/issues/1039
-if [ $(sysctl kernel.unprivileged_userns_clone | cut -d " " -f 3) != "1" ] ; then
-  echo "Working around systems without unprivileged_userns_clone using --no-sandbox"
-  exec "${HERE}/usr/bin/nativefied" "$@" --no-sandbox
-else
-  exec "${HERE}/usr/bin/nativefied" "$@"
-fi
-EOF
-chmod +x appdir/AppRun
-
-wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - | grep "appimagetool-.*-x86_64.AppImage" | head -n 1 | cut -d '"' -f 2)
-chmod +x appimagetool-*.AppImage
-./appimagetool-*.AppImage deploy ./appdir/usr/share/applications/*.desktop # Bundle everything expect what comes with the base system
-
-find appdir/ -type f -name '*libnss*' -delete
-
-VERSION=$(date +"%Y%m%d") ./appimagetool-*.AppImage ./appdir # turn AppDir into AppImage
-
-
-
-
-chmod +x *.AppImage
-rm -rf appdir/ || true  1> /dev/null
-rm -rf appimagetoo*.AppImage 1> /dev/null
-rm  -rf \"\" 1> /dev/null
+rm -r ./$name.AppDir >/dev/null
