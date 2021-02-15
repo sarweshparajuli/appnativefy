@@ -14,6 +14,13 @@ iconname="icon.png"
   
 echo
 
+    FILE=resources/app/icon.png
+
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+else 
+    wget -c "https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/icon.png" -O resources/app/icon.png
+fi   
 
   
   cp resources/app/icon.png icon.png
@@ -44,7 +51,6 @@ cd ..
 echo
 echo
 echo "AppImage built to $PWD/$name-x86_64.AppImage"
-echo
 echo
 echo
 echo
