@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var yargs = require('yargs');
 const { exec } = require("child_process");
 
