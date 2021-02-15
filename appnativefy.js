@@ -47,7 +47,11 @@ if (argv.services === true) {
 } else {
     var services = "--honest"
 }
-
+if (argv.singleinstance === true) {
+    var singleinstance = "--single-instance";
+} else {
+    var singleinstance = ""
+}
 
 
 console.log('Inspecting options');
@@ -60,7 +64,7 @@ console.log("services:", services);
 
 var npxnativefier = "mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && npx nativefier"
 
-var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"',name, '"', " ", widevine, " ", services, " ", inject, " ");
+var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"',name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
 
 console.log(commandvariable);
 
