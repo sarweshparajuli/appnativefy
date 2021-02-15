@@ -43,7 +43,7 @@ if (argv.widevine === true) {
 }
 
 if (argv.services === true) {
-    var services = '--useragent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0"';
+    var services = '--user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0" --internal-urls "(.*)"';
 } else {
     var services = "--honest"
 }
