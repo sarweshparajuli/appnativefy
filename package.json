@@ -1,16 +1,30 @@
 {
-  "dependencies": {
-    "node": "^15.8.0",
-    "yargs": "^16.2.0"
-  },
   "name": "appnativefy",
-  "version": "1.0.0",
-  "description": "AppImage maker",
+  "version": "1.0.4",
+  "description": "AppImages from websites",
   "main": "appnativefy.js",
   "scripts": {
     "start": "node appnativefy.js",
-    "test": "echo \"No test specified\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarweshparajuli/nativefier-appimage.git"
+  },
+  "keywords": [
+    "AppImage"
+  ],
   "author": "Sarwesh Parajuli",
-  "license": "ISC"
+  "license": "ISC",
+  "bin": {
+    "appnativefy": "./appnativefy.js"
+  },
+  "bugs": {
+    "url": "https://github.com/sarweshparajuli/nativefier-appimage/issues"
+  },
+  "homepage": "https://github.com/sarweshparajuli/nativefier-appimage#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "yargs": "^16.2.0"
+  }
 }
