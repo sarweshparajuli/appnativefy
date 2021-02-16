@@ -1,9 +1,7 @@
 #! /bin/bash
 name=$1
 mkdir ~/AppImage-maker && cd ~/AppImage-maker && mkdir nativefier-appimage-temp
-  mv "$name"-linux-* nativefier-appimage-temp/"$name".AppDir
-  mv "$name"-linux-* nativefier-appimage-temp/"$name".AppDir
-
+mv "$name"-linux-* nativefier-appimage-temp/"$name".AppDir
 cd nativefier-appimage-temp
 (
   
@@ -11,7 +9,6 @@ cd nativefier-appimage-temp
   
 iconname="icon.png"
 
-  
 echo
 
     FILE=resources/app/icon.png
@@ -22,9 +19,8 @@ else
     wget -c "https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/icon.png" -O resources/app/icon.png
 fi   
 
-  
-  cp resources/app/icon.png icon.png
 
+  cp resources/app/icon.png icon.png
   
   
   echo "[Desktop Entry]" > $name.desktop
@@ -43,8 +39,11 @@ fi
 [ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
 chmod +x /tmp/appimagetool
 /tmp/appimagetool "$name.AppDir"
-
 cp *.AppImage ../
 cd ..
-
-echo 'AppImage built to ~/AppImage-maker/'$name'-x86_64.AppImage'
+echo
+echo
+echo "AppImage built to $PWD/$name-x86_64.AppImage"
+echo
+echo
+echo
