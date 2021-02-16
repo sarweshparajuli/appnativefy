@@ -161,7 +161,7 @@ console.log("counter:", argv.counter);
 console.log("single instance:", argv.singleinstance)
 console.log("css/js injection:", inject);
 
-var npxnativefier = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp", favicongen, " && nativefier")
+var npxnativefier = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp", favicongen, " && /usr/local/lib/node_modules/appnativefy/node_modules/nativefier/lib/cli.js")
 
 ///var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"', name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
 
