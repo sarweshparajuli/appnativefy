@@ -51,11 +51,28 @@ fi
   echo "exec \$APPDIR/$name" >> AppRun
   chmod +x ./AppRun
 )
+if [ $arch = "arm" ]; then
+   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetool
+chmod +x /tmp/appimagetoolarm
+/tmp/appimagetoolarm "$name.AppDir"
 
-[ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
+elif [ $arch = "arm64" ]; then
+   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetool
+chmod +x /tmp/appimagetoolarm
+/tmp/appimagetoolarm "$name.AppDir"
+
+elif [ $arch = "ia32" ]; then
+  [ ! -e /tmp/appimagetooli686 ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-i686.AppImage -O /tmp/appimagetool
+chmod +x /tmp/appimagetooli686
+/tmp/appimagetooli686 "$name.AppDir"
+
+else
+ [ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
 chmod +x /tmp/appimagetool
-
 /tmp/appimagetool "$name.AppDir"
+
+fi
+
 cp *.AppImage ../
 cd ..
 
