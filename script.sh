@@ -1,8 +1,8 @@
 #! /bin/bash
 name=$1
 mkdir ~/AppImage-maker && cd ~/AppImage-maker && mkdir nativefier-appimage-temp
-  mv "$name"-linux-x86_64 nativefier-appimage-temp/"$name".AppDir
-  mv "$name"-linux-x*64 nativefier-appimage-temp/"$name".AppDir
+  mv "$name"-linux-* nativefier-appimage-temp/"$name".AppDir
+  mv "$name"-linux-* nativefier-appimage-temp/"$name".AppDir
 
 cd nativefier-appimage-temp
 (
