@@ -18,6 +18,7 @@ npm install -g appnativefy
 ## Supported platforms & prerequisites
 ### Supported platforms
 Supported for: GNU/Linux Operating Systems
+
 Architectures: amd64
 (Soon adding support for additional architectures)
 
@@ -150,6 +151,23 @@ Only a single instance of the AppImage will execute, if already running, the ins
 Disables hardware acceleration, in the AppImage.
 
 ## Examples
+
+### YouTube
+```
+appnativefy --name "YouTube" --url "https://youtube.com" --services
+```
+### Spotify
+```
+appnativefy --name "Spotify" --url "https://open.spotify.com" --services --widevine
+```
+### Microsoft Teams
+```
+appnativefy --name "Microsoft Teams" --url "https://teams.microsoft.com" --services --favicon
+```
+### Messenger
+```
+appnativefy --name "Messenger" --url "https://messenger.com" --services --favicon
+```
                          
 
 
