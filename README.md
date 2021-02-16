@@ -31,5 +31,5 @@ sudo pacman -Syu
 sudo pacman -S nodejs npm wget
 ```
 ### Usage
-![Usage](gifs/animation.gif)
+![Usage](gifs/animated.gif)
 --- 
