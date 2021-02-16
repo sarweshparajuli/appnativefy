@@ -47,4 +47,4 @@ chmod +x /tmp/appimagetool
 cp *.AppImage ../
 cd ..
 
-echo "AppImage built to ~/AppImage-maker/$name-x86_64.AppImage"
+echo 'AppImage built to ~/AppImage-maker/'$name'-x86_64.AppImage'
