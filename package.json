@@ -1,6 +1,6 @@
 {
   "name": "appnativefy",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "AppImages from websites",
   "main": "appnativefy.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/sarweshparajuli/nativefier-appimage#readme",
   "dependencies": {
     "child_process": "^1.0.2",
+    "nativefier": "^42.2.1",
     "yargs": "^16.2.0"
   }
 }

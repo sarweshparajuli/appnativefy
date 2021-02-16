@@ -6,9 +6,9 @@ const {
 } = require("child_process");
 
 var argv = require('yargs/yargs')(process.argv.slice(2))
-    .usage('Mkae executable AppImages from any Website URL\n\nUsage: $0 [options]')
+    .usage('Make executable AppImages from any Website URL\n\nUsage: $0 [options]')
     .help('help').alias('help', 'h')
-    .version('version', '1.0.1').alias('version', 'V')
+    .version('version', '1.1.0').alias('version', 'V')
     .options({
         name: {
             alias: 'n',
@@ -41,6 +41,9 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 
     })
     .options({
+        favicon: {
+            description: "Force use website favicon, as AppImage icon",
+        },
         widevine: {
             description: "Widevine support (for sites with DRM protected content)",
         },
@@ -104,6 +107,14 @@ if (argv.widevine === true) {
     var widevine = ""
 }
 
+if (argv.favicon === true) {
+    var favicongen = blankstr.concat(" && wget ", '"', "https://www.google.com/s2/favicons?sz=64&domain_url=", argv.url, '"', " ", "-O icon.png ");
+    var icon = '--icon "icon.png"'
+} else {
+    var favicon = ""
+    var icon = ""
+}
+
 if (argv.services === true) {
     var services = '--user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0" --internal-urls "(.*)"';
 } else {
@@ -150,29 +161,25 @@ console.log("counter:", argv.counter);
 console.log("single instance:", argv.singleinstance)
 console.log("css/js injection:", inject);
 
-var npxnativefier = "mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && npx nativefier"
+var npxnativefier = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp", favicongen, " && nativefier")
 
 ///var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"', name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
 
-var commandvariable = npxnativefier.concat(" ", url, " ", "--name", " ", '"', name, '"', " ", appcopyright, " ", appversion, " ", electronversion, " ", widevine, " ", services, " ", nooverwrite, " ", conceal, " ", counter, " ", singleinstance, " ", inject, " ")
+var commandvariable = npxnativefier.concat(" ", url, " ", "--name", " ", '"', name, '"', " ", icon, " ", appcopyright, " ", appversion, " ", electronversion, " ", widevine, " ", services, " ", nooverwrite, " ", conceal, " ", counter, " ", singleinstance, " ", inject, " ")
 
 console.log(commandvariable);
 
-var appimage = " rm style.css && chmod +x script.sh && ./script.sh"
-var appimagescript = appimage.concat(" ", name, " ")
+var appimage = " rm style.css && rm icon.png && chmod +x script.sh && "
+var appimagescript = appimage.concat("./script.sh", " ", name, " ")
 
-var finalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/AppImage-maker/nativefier-appimage-temp', ' && rm -r ~/AppImage-maker/script.sh', '&& echo echo "AppImage built to ~/AppImage-maker/', name, '-x86_64.AppImage')
-exec("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/style.css && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/script.sh", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-});
+var almostfinalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/AppImage-maker/nativefier-appimage-temp', ' && rm -r ~/AppImage-maker/script.sh ')
+
+var downloads = "mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/style.css && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/script.sh"
+
+var endofscript = blankstr.concat("echo ", '"', "AppImage built to ~/AppImage-maker/", name, "-x86_64.AppImage", '"')
+
+var finalvar = blankstr.concat(downloads, " ", "&&", " ", almostfinalvar, " ", "&&", " ", endofscript)
+
 
 exec(finalvar, (error, stdout, stderr) => {
     if (error) {
@@ -185,3 +192,6 @@ exec(finalvar, (error, stdout, stderr) => {
     }
     console.log(`stdout: ${stdout}`);
 });
+
+var trueendofscript = blankstr.concat("AppImage building to ~/AppImage-maker/", name, "-x86_64.AppImage")
+console.log(trueendofscript);
