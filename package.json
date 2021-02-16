@@ -5,11 +5,11 @@
   "main": "appnativefy.js",
   "scripts": {
     "start": "node appnativefy.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo 'Error: no test specified'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sarweshparajuli/nativefier-appimage.git"
+    "url": "git+https://github.com/sarweshparajuli/appnativefy.git"
   },
   "keywords": [
     "AppImage"
@@ -20,9 +20,9 @@
     "appnativefy": "./appnativefy.js"
   },
   "bugs": {
-    "url": "https://github.com/sarweshparajuli/nativefier-appimage/issues"
+    "url": "https://github.com/sarweshparajuli/appnativefy/issues"
   },
-  "homepage": "https://github.com/sarweshparajuli/nativefier-appimage#readme",
+  "homepage": "https://github.com/sarweshparajuli/appnativefy#readme",
   "dependencies": {
     "child_process": "^1.0.2",
     "nativefier": "^42.2.1",
