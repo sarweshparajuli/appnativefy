@@ -7,7 +7,7 @@ Appnativefy is an NPM package to make executable AppImage files from any website
 [![npm version](https://badge.fury.io/js/appnativefy.svg)](https://badge.fury.io/js/appnativefy)
 
 ---
-Solarized dark             |  Solarized Ocean
+            |  
 :-------------------------:|:-------------------------:
 ![Dock](gifs/dock.png) | 
 
