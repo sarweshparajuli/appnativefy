@@ -178,7 +178,7 @@ appnativefy --name "Microsoft Teams" --url "https://teams.microsoft.com/_" --ser
 https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Microsoft-Teams-x86_64.AppImage
 ### Spotify
 ```
-appnativefy --name "Spotify" --url "https://open.spotify.com" --services --widevine
+appnativefy --name "Spotify" --url "https://open.spotify.com" --services --widevine --favicon
 ```
 https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Spotify-x86_64.AppImage
 ### YouTube
