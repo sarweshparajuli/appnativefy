@@ -1,20 +1,9 @@
 #! /bin/bash
 name=$1
 mkdir ~/AppImage-maker && cd ~/AppImage-maker && mkdir nativefier-appimage-temp
-arch=$2
-if [ $arch = "arm" ]; then
-   mv "$name"-linux-arm nativefier-appimage-temp/"$name".AppDir
-   mv ~/AppImage-maker/arm/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
-elif [ $arch = "arm64" ]; then
-   mv "$name"-linux-arm64 nativefier-appimage-temp/"$name".AppDir
-   mv ~/AppImage-maker/arm64/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
-elif [ $arch = "ia32" ]; then
-   mv "$name"-linux-ia32 nativefier-appimage-temp/"$name".AppDir
-   mv ~/AppImage-maker/ia32/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
-else
   mv "$name"-linux-x86_64 nativefier-appimage-temp/"$name".AppDir
-  mv "$name"-linux-x64 nativefier-appimage-temp/"$name".AppDir
-fi
+  mv "$name"-linux-x*64 nativefier-appimage-temp/"$name".AppDir
+
 cd nativefier-appimage-temp
 (
   
@@ -51,34 +40,11 @@ fi
   echo "exec \$APPDIR/$name" >> AppRun
   chmod +x ./AppRun
 )
-if [ $arch = "arm" ]; then
-   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetoolarm
-chmod +x /tmp/appimagetoolarm
-/tmp/appimagetoolarm "$name.AppDir"
-
-elif [ $arch = "arm64" ]; then
-   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetoolarm
-chmod +x /tmp/appimagetoolarm
-/tmp/appimagetoolarm "$name.AppDir"
-
-elif [ $arch = "ia32" ]; then
-  [ ! -e /tmp/appimagetooli686 ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-i686.AppImage -O /tmp/appimagetooli686
-chmod +x /tmp/appimagetooli686
-/tmp/appimagetooli686 "$name.AppDir"
-
-else
- [ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
+[ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
 chmod +x /tmp/appimagetool
 /tmp/appimagetool "$name.AppDir"
-
-fi
 
 cp *.AppImage ../
 cd ..
 
-echo
-echo
-echo "AppImage built to $PWD/$name-x86_64.AppImage"
-echo
-echo
-echo
+echo "AppImage built to ~/AppImage-maker/$name-x86_64.AppImage"
