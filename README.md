@@ -30,5 +30,6 @@ sudo apt-get install nodejs npm wget
 sudo pacman -Syu
 sudo pacman -S nodejs npm wget
 ```
-
+### Usage
+![Usage](gifs/animation.gif)
 --- 
