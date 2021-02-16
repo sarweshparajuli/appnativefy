@@ -38,6 +38,11 @@ sudo apt-get install nodejs npm wget
 sudo pacman -Syu
 sudo pacman -S nodejs npm wget
 ```
+#### Gentoo
+```bash
+emerge nodejs wget
+```
+
 ## Usage
 ![Usage](gifs/animated.gif)
 For example, to make an AppImage for YouTube, simply run, 
