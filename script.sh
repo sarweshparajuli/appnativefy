@@ -4,13 +4,16 @@ mkdir ~/AppImage-maker && cd ~/AppImage-maker && mkdir nativefier-appimage-temp
 arch="x64"
 arch=$2
 if [ $arch = "arm" ]; then
+   mv "$name"-linux-arm nativefier-appimage-temp/"$name".AppDir
    mv ~/AppImage-maker/arm/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
 elif [ $arch = "arm64" ]; then
+   mv "$name"-linux-arm64 nativefier-appimage-temp/"$name".AppDir
    mv ~/AppImage-maker/arm64/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
 elif [ $arch = "ia32" ]; then
+   mv "$name"-linux-ia32 nativefier-appimage-temp/"$name".AppDir
    mv ~/AppImage-maker/ia32/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
 else
-  mv "$name"-linux-* nativefier-appimage-temp/"$name".AppDir
+  mv "$name"-linux-x86_64 nativefier-appimage-temp/"$name".AppDir
 fi
 cd nativefier-appimage-temp
 (
