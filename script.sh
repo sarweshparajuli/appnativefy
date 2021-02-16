@@ -52,17 +52,17 @@ fi
   chmod +x ./AppRun
 )
 if [ $arch = "arm" ]; then
-   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetool
+   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetoolarm
 chmod +x /tmp/appimagetoolarm
 /tmp/appimagetoolarm "$name.AppDir"
 
 elif [ $arch = "arm64" ]; then
-   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetool
+   [ ! -e /tmp/appimagetoolarm ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage -O /tmp/appimagetoolarm
 chmod +x /tmp/appimagetoolarm
 /tmp/appimagetoolarm "$name.AppDir"
 
 elif [ $arch = "ia32" ]; then
-  [ ! -e /tmp/appimagetooli686 ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-i686.AppImage -O /tmp/appimagetool
+  [ ! -e /tmp/appimagetooli686 ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-i686.AppImage -O /tmp/appimagetooli686
 chmod +x /tmp/appimagetooli686
 /tmp/appimagetooli686 "$name.AppDir"
 
