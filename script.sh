@@ -1,7 +1,6 @@
 #! /bin/bash
 name=$1
 mkdir ~/AppImage-maker && cd ~/AppImage-maker && mkdir nativefier-appimage-temp
-arch="x64"
 arch=$2
 if [ $arch = "arm" ]; then
    mv "$name"-linux-arm nativefier-appimage-temp/"$name".AppDir
