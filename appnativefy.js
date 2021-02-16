@@ -8,7 +8,7 @@ console.log(__dirname);
 var argv = require('yargs/yargs')(process.argv.slice(2))
     .usage('Make executable AppImages from any Website URL\n\nUsage: $0 [options]')
     .help('help').alias('help', 'h')
-    .version('version', '1.1.8').alias('version', 'V')
+    .version('version', '1.1.9').alias('version', 'V')
     .options({
         name: {
             alias: 'n',
