@@ -4,11 +4,11 @@ var yargs = require('yargs');
 const {
     exec
 } = require("child_process");
-
+console.log(__dirname);
 var argv = require('yargs/yargs')(process.argv.slice(2))
     .usage('Make executable AppImages from any Website URL\n\nUsage: $0 [options]')
     .help('help').alias('help', 'h')
-    .version('version', '1.1.0').alias('version', 'V')
+    .version('version', '1.1.8').alias('version', 'V')
     .options({
         name: {
             alias: 'n',
@@ -111,7 +111,7 @@ if (argv.favicon === true) {
     var favicongen = blankstr.concat(" && wget ", '"', "https://www.google.com/s2/favicons?sz=64&domain_url=", argv.url, '"', " ", "-O icon.png ");
     var icon = '--icon "icon.png"'
 } else {
-    var favicon = ""
+    var favicongen = ""
     var icon = ""
 }
 
@@ -161,7 +161,7 @@ console.log("counter:", argv.counter);
 console.log("single instance:", argv.singleinstance)
 console.log("css/js injection:", inject);
 
-var npxnativefier = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp", favicongen, " && /usr/local/lib/node_modules/appnativefy/node_modules/nativefier/lib/cli.js")
+var npxnativefier = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp", " ", favicongen, " && ", __dirname, "/node_modules/nativefier/lib/cli.js")
 
 ///var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"', name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
 
@@ -169,12 +169,12 @@ var commandvariable = npxnativefier.concat(" ", url, " ", "--name", " ", '"', na
 
 console.log(commandvariable);
 
-var appimage = " rm style.css && rm icon.png && chmod +x script.sh && "
-var appimagescript = appimage.concat("./script.sh", " ", name, " ")
+var appimage = " rm style.css && rm -rf icon.png && "
+var appimagescript = appimage.concat(" sh script.sh", " ", name, " ")
 
 var almostfinalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/AppImage-maker/nativefier-appimage-temp', ' && rm -r ~/AppImage-maker/script.sh ')
 
-var downloads = "mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/style.css && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/script.sh"
+var downloads = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && cp", " ", __dirname, "/style.css style.css && cp", " ", __dirname, "/script.sh script.sh")
 
 var endofscript = blankstr.concat("echo ", '"', "AppImage built to ~/AppImage-maker/", name, "-x86_64.AppImage", '"')
 

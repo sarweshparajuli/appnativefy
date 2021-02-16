@@ -1,6 +1,6 @@
 {
   "name": "appnativefy",
-  "version": "1.1.2",
+  "version": "1.1.8",
   "description": "AppImages from websites",
   "main": "appnativefy.js",
   "scripts": {

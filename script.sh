@@ -13,13 +13,17 @@ iconname="icon.png"
 
   
 echo
-
+    anotherfile=/usr/local/lib/node_modules/appnativefy/icon.png
     FILE=resources/app/icon.png
 
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
 else 
+    if  -f "$anotherfile" ]; then
+    cp  /usr/local/lib/node_modules/appnativefy/icon.png resources/app/icon.png
+    else
     wget -c "https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/icon.png" -O resources/app/icon.png
+    fi
 fi   
 
   
