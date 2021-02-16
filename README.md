@@ -157,24 +157,34 @@ Disables hardware acceleration, in the AppImage.
 
 ## Examples
 
-### YouTube
+![Usage](gifs/examples.png)
+
+
+### Google
 ```
-appnativefy --name "YouTube" --url "https://youtube.com" --services
+appnativefy --name "Google" --url "https://google.com" --services
 ```
-### Spotify
-```
-appnativefy --name "Spotify" --url "https://open.spotify.com" --services --widevine
-```
-### Microsoft Teams
-```
-appnativefy --name "Microsoft Teams" --url "https://teams.microsoft.com" --services --favicon
-```
+https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Google-x86_64.AppImage
+
 ### Messenger
 ```
 appnativefy --name "Messenger" --url "https://messenger.com" --services --favicon
 ```
-                         
-
-
+https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Messenger-x86_64.AppImage
+### Microsoft Teams
+```
+appnativefy --name "Microsoft Teams" --url "https://teams.microsoft.com/_" --services --favicon
+```
+https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Microsoft-Teams-x86_64.AppImage
+### Spotify
+```
+appnativefy --name "Spotify" --url "https://open.spotify.com" --services --widevine
+```
+https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Spotify-x86_64.AppImage
+### YouTube
+```
+appnativefy --name "YouTube" --url "https://youtube.com" --services
+```
+https://github.com/sarweshparajuli/appnativefy/raw/main/examples/YouTube-x86_64.AppImage
 
 --- 
