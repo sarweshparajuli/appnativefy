@@ -35,7 +35,7 @@ sudo apt-get install nodejs npm wget
 sudo pacman -Syu
 sudo pacman -S nodejs npm wget
 ```
-### Usage
+## Usage
 ![Usage](gifs/animated.gif)
 For example, to make an AppImage for YouTube, simply run, `appnativefy --name "YouTube" --url "https://youtube.com"`
 But if you wish to sign-in to YouTube, pass `--services`, this argument enables to sign-in using services such as Microsoft 365 and Google, in sites that support them. So, you'll be supposed to run `appnativefy --name "YouTube" --url "https://youtube.com" --services`
@@ -47,6 +47,78 @@ It is recommended to pass the values inside double quotes `" "`, so that it may 
 
 The built AppImage will be found in `~/AppImage-maker`, with the file name: `<name>-x86_64.AppImage`
 #### List of options
+* --help | -h
+```appnativefy --help, appnativefy -h
+```
+Prints possible command-line options
+
 * --version | -V
-```appnativefy -
+
+```appnativefy --version, appnativefy -V
+```
+Prints the installation directory and version of installed appnativefy
+
+* --name | -n [REQUIRED]
+```--name <value>,-n <value>
+```
+To specify the name of the AppImage to be built, `---url | -u` and `--name | -n` are required options, also, it is recommended to enclose the values using doublequotes `" "`.
+
+* --url | -u [REQUIRED]
+```--url <value>, -u <value>
+```
+URL of the website, that is to be nativefied.
+
+* --appCopyright
+```--appCopyright <value>
+```
+ Copyright information
+ 
+ * --appVersion 
+ ```--appVersion <value>
+ ```
+ App version info
+
+* -e, --electronVersion
+```-e, --electronVersion <value without the "v">
+```
+Specifies which version of electron framework to be used by the AppImage.
+
+* --favicon
+```--favicon```
+Forces to use the favicon of the site while making the AppImage. If not specified in certain cases, the icon may be different than expected in sites such as Microsoft Teams.
+
+* --widevine
+```--widevine```
+Adds Widevine support to the AppImage, to enable playing DRM enabled content in sites such as Spotify.
+
+* --services
+```--services```
+Changes the useragent to `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0`, and internal URLs to `(.*)` to overcome incompatibilty with Microsoft 365 and/or Google sign-in services.
+
+* --noOverwrite
+```--noOverwrite```
+Specifies that the directory should not be overwritten if already present.
+
+* --conceal
+```--conceal```
+Conceals the sourcecode of the electronized website inside the AppImage into an ASAR archive.
+
+
+* --counter
+```--counter```
+Use a counter that persists even with window focus for the application badge.
+
+* --singleinstance
+```--singleinstance```
+Only a single instance of the AppImage will execute, if already running, the instance will be brought to front.
+
+* --disablegpu
+```--disablegpu```
+Disables hardware acceleration, in the AppImage.
+
+## Examples
+                         
+
+
+
 --- 
