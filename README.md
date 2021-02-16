@@ -9,7 +9,7 @@ Appnativefy is an NPM package to make executable AppImage files from any website
 
 **Make a native AppImage for ANY website**
 <br>
- ![Dock](gifs/dock.png)        
+ ![Dock](gifs/messenger-appimage.png)        
 
 ## Installation
 ```bash
