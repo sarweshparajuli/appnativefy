@@ -13,6 +13,12 @@ Appnativefy is an NPM package to make executable AppImage files from any website
 ```bash
 npm install -g appnativefy
 ```
+## Supported platforms & prerequisites
+### Supported platforms
+Supported for: GNU/Linux Operating Systems
+Architectures: amd64
+(Soon adding support for additional architectures)
+
 ### Prerequisites
 * Node.JS
 * NPM Package manager
