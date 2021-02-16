@@ -13,6 +13,7 @@ elif [ $arch = "ia32" ]; then
    mv ~/AppImage-maker/ia32/"$name"-linux-* ~/AppImage-maker/nativefier-appimage-temp/"$name".AppDir
 else
   mv "$name"-linux-x86_64 nativefier-appimage-temp/"$name".AppDir
+  mv "$name"-linux-x64 nativefier-appimage-temp/"$name".AppDir
 fi
 cd nativefier-appimage-temp
 (
