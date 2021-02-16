@@ -8,6 +8,8 @@ lerna-debug.log*
 
 # GIFs
 gifs/
+*.gif
+*.png
 
 # Readme
 README.md
