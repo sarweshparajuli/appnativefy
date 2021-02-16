@@ -1,41 +1,103 @@
 #!/usr/bin/env node
+
 var yargs = require('yargs');
-const { exec } = require("child_process");
+const {
+    exec
+} = require("child_process");
 
 var argv = require('yargs/yargs')(process.argv.slice(2))
-  .usage('AppImage from website\n\nUsage: $0 [options]')
-  .help('help').alias('help', 'h')
-  .version('version', '1.0.1').alias('version', 'V')
-  .options({
-    name: {
-      alias: 'n',
-      description: "<name> Input website name",
-      requiresArg: true,
-      required: true
-    },
-    url: {
-      alias: 'u',
-      description: "<url> Website url",
-      requiresArg: true,
-      required: true
-    },
-    })  
+    .usage('Mkae executable AppImages from any Website URL\n\nUsage: $0 [options]')
+    .help('help').alias('help', 'h')
+    .version('version', '1.0.1').alias('version', 'V')
+    .options({
+        name: {
+            alias: 'n',
+            description: "<name> Input website name",
+            requiresArg: true,
+            required: true
+        },
+        url: {
+            alias: 'u',
+            description: "<url> Website url",
+            requiresArg: true,
+            required: true
+        },
+        appCopyright: {
+            description: "<value> Copyright information",
+            requiresArg: true,
+            required: false
+        },
+        appVersion: {
+            description: "<value> App version info",
+            requiresArg: true,
+            required: false
+        },
+        electronVersion: {
+            alias: 'e',
+            description: "<value> Electron version without the 'v'",
+            requiresArg: true,
+            required: false
+        },
+
+    })
     .options({
         widevine: {
-          description: "Widevine support (for sites with DRM protected content)",
+            description: "Widevine support (for sites with DRM protected content)",
         },
         services: {
-              description: "Google/Microsoft 365 sign-in support",
-            },
+            description: "Google/Microsoft 365 sign-in support",
+        },
+        noOverwrite: {
+            description: "Specifies if destination directory should not be overwritten",
+        },
+        conceal: {
+            description: "Conceals the source code within the AppImage into an archive",
+        },
+        counter: {
+            description: "Use a counter that persists even with window focus for the application badge",
+        },
         singleinstance: {
-                description: "Single instance of application",
-              }
+            description: "Single instance of application",
+        },
+        disablegpu: {
+            description: "Disable hardware acceleration"
+        }
     })
-  .argv;
+    .argv;
+
+var blankstr = ""
+
 str = argv.name
 var name = str.replace(/\s+/g, '-')
-var url = argv.url
+
+var url = blankstr.concat('"', argv.url, '"')
+
+if (argv.arch === undefined) {
+    arch = "x64";
+} else {
+    var arch = argv.arch
+}
+
+if (argv.appCopyright === undefined) {
+    var appcopyright = "";
+} else {
+    var appcopyright = blankstr.concat("--app-copyright", " ", '"', argv.appCopyright, '"')
+}
+
+if (argv.appVersion === undefined) {
+    var appversion = "";
+} else {
+    var appversion = blankstr.concat("--app-version", " ", '"', argv.appVersion, '"')
+}
+
+if (argv.electronVersion === undefined) {
+    var electronversion = "";
+} else {
+    var electronversion = blankstr.concat("--electron-version", " ", '"', argv.electronVersion, '"')
+}
+
 var inject = "--inject style.css"
+
 if (argv.widevine === true) {
     var widevine = "--widevine";
 } else {
@@ -47,6 +109,25 @@ if (argv.services === true) {
 } else {
     var services = "--honest"
 }
+
+if (argv.noOverwrite === true) {
+    var nooverwrite = '--no-overwrite "true"';
+} else {
+    var nooverwrite = ""
+}
+
+if (argv.conceal === true) {
+    var conceal = "--conceal";
+} else {
+    var conceal = ""
+}
+
+if (argv.counter === true) {
+    var counter = "--counter";
+} else {
+    var counter = ""
+}
+
 if (argv.singleinstance === true) {
     var singleinstance = "--single-instance";
 } else {
@@ -58,40 +139,49 @@ console.log('Inspecting options');
 
 console.log("name:", name);
 console.log("url:", url);
-console.log("widevine support:", widevine);
+console.log("app copyright:", argv.appCopyright);
+console.log("app version:", argv.appVersion);
+console.log("electron version:", argv.electronVersion);
+console.log("widevine support:", argv.widevine);
+console.log("services:", argv.services);
+console.log("no overwrite:", argv.noOverwrite);
+console.log("conceal:", argv.conceal);
+console.log("counter:", argv.counter);
+console.log("single instance:", argv.singleinstance)
 console.log("css/js injection:", inject);
-console.log("services:", services);
 
 var npxnativefier = "mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && npx nativefier"
 
-var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"',name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
+///var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"', name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
+
+var commandvariable = npxnativefier.concat(" ", url, " ", "--name", " ", '"', name, '"', " ", appcopyright, " ", appversion, " ", electronversion, " ", widevine, " ", services, " ", nooverwrite, " ", conceal, " ", counter, " ", singleinstance, " ", inject, " ")
 
 console.log(commandvariable);
 
 var appimage = " rm style.css && chmod +x script.sh && ./script.sh"
-var appimagescript = appimage.concat(" ", name)
+var appimagescript = appimage.concat(" ", name, " ")
 
-var finalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/AppImage-maker/nativefier-appimage-temp', ' && rm -r ~/AppImage-maker/script.sh')
+var finalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/AppImage-maker/nativefier-appimage-temp', ' && rm -r ~/AppImage-maker/script.sh', '&& echo echo "AppImage built to ~/AppImage-maker/', name, '-x86_64.AppImage')
 exec("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/style.css && wget -c https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/script.sh", (error, stdout, stderr) => {
-  if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-  }
-  if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-  }
-  console.log(`stdout: ${stdout}`);
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
 });
 
 exec(finalvar, (error, stdout, stderr) => {
-  if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-  }
-  if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-  }
-  console.log(`stdout: ${stdout}`);
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
 });
