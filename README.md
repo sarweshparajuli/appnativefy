@@ -18,6 +18,7 @@ npm install -g appnativefy
 * Node.JS
 * NPM Package manager
 * Wget
+
 You can install these by:
 #### Debian and derivatives (Ubuntu, Kubuntu, KDE Neon, Kali, etc.)
 ```bash
