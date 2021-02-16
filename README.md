@@ -9,7 +9,25 @@ Appnativefy is an NPM package to make executable AppImage files from any website
 
 **Make a native AppImage for ANY website**
 <br>
- ![Dock](gifs/messenger-appimage.png)        
+ ![Dock](gifs/messenger-appimage.png)   
+
+Table of Contents
+=================
+* [Installation](#installation)
+      * [Supported platforms &amp; prerequisites](#supported-platforms--prerequisites)
+         * [Supported platforms](#supported-platforms)
+         * [Prerequisites](#prerequisites)
+            * [Debian and derivatives (Ubuntu, Kubuntu, KDE Neon, Kali, etc.)](#debian-and-derivatives-ubuntu-kubuntu-kde-neon-kali-etc)
+            * [Arch and derivatives (Garuda, Manjaro, etc.)](#arch-and-derivatives-garuda-manjaro-etc)
+            * [Gentoo](#gentoo)
+      * [Usage](#usage)
+            * [List of options](#list-of-options)
+      * [Examples](#examples)
+         * [Google](#google)
+         * [Messenger](#messenger)
+         * [Microsoft Teams](#microsoft-teams)
+         * [Spotify](#spotify)
+         * [YouTube](#youtube)
 
 ## Installation
 ```bash
