@@ -7,7 +7,8 @@ Appnativefy is an NPM package to make executable AppImage files from any website
 [![npm version](https://badge.fury.io/js/appnativefy.svg)](https://badge.fury.io/js/appnativefy)
 
 ---
- ![Dock](gifs/dock.png)           |  
+ ![Dock](gifs/dock.png)           |  Make a native AppImage for ANY website
+ :-------------------------------:|:-----------------------------------------:
  
 --- 
 
