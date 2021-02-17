@@ -2,6 +2,15 @@
 
 Appnativefy is an NPM package to make executable AppImage files from any website, it uses the Nativefier API in the backend, with AppImageKIt. 
 
+## Why AppImages?
+
+AppImages are cross-distro unlike `.deb` or .`rpm`. Plus, you dont have to face the hassle of individually installing the package, and another hassle while uninstalling.
+
+With AppImages, there's no installation required, click-to-run.
+
+Uninstall? `rm -r <file name>.AppImage`
+Simply delete the file.
+
 ---
 
 [![npm version](https://badge.fury.io/js/appnativefy.svg)](https://badge.fury.io/js/appnativefy)
