@@ -8,7 +8,7 @@ console.log(__dirname);
 var argv = require('yargs/yargs')(process.argv.slice(2))
     .usage('Make executable AppImages from any Website URL\n\nUsage: $0 [options]')
     .help('help').alias('help', 'h')
-    .version('version', '1.1.12').alias('version', 'V')
+    .version('version', '1.2.0').alias('version', 'V')
     .options({
         name: {
             alias: 'n',
@@ -21,6 +21,11 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
             description: "<url> Website url",
             requiresArg: true,
             required: true
+        },
+        internalurls: {
+            description: "<REGEX> internal urls",
+            requiresArg: true,
+            required: false
         },
         appCopyright: {
             description: "<value> Copyright information",
@@ -41,6 +46,9 @@ var argv = require('yargs/yargs')(process.argv.slice(2))
 
     })
     .options({
+        saveAs: {
+            description: "Show a 'Save as' dialog, while downloading items",
+        },
         favicon: {
             description: "Force use website favicon, as AppImage icon",
         },
@@ -116,9 +124,25 @@ if (argv.favicon === true) {
 }
 
 if (argv.services === true) {
-    var services = '--user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0" --internal-urls "(.*)"';
+    var services = '--user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0"';
+    if (argv.internalurls === undefined) {
+        var internalurls = '--internal-urls "(.*)"';
+    } else {
+        var internalurls = blankstr.concat("--internal-urls", " ", argv.internalurls)
+    }
 } else {
     var services = "--honest"
+    if (argv.internalurls === undefined) {
+        var internalurls = "";
+    } else {
+        var internalurls = blankstr.concat("--internal-urls", " ", argv.internalurls)
+    }
+} 
+
+if (argv.saveAs === true) {
+    var downloaddialog = '--file-download-options \'{"saveAs": true}\'';
+} else {
+    var downloaddialog = "";
 }
 
 if (argv.noOverwrite === true) {
@@ -155,6 +179,7 @@ console.log("app version:", argv.appVersion);
 console.log("electron version:", argv.electronVersion);
 console.log("widevine support:", argv.widevine);
 console.log("services:", argv.services);
+console.log("internal urls:", argv.internalurls)
 console.log("no overwrite:", argv.noOverwrite);
 console.log("conceal:", argv.conceal);
 console.log("counter:", argv.counter);
@@ -165,7 +190,7 @@ var npxnativefier = blankstr.concat("mkdir -p ~/appnativefy && cd ~/appnativefy 
 
 ///var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"', name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
 
-var commandvariable = npxnativefier.concat(" ", url, " ", "--name", " ", '"', name, '"', " ", icon, " ", appcopyright, " ", appversion, " ", electronversion, " ", widevine, " ", services, " ", nooverwrite, " ", conceal, " ", counter, " ", singleinstance, " ", inject, " ")
+var commandvariable = npxnativefier.concat(" ", url, " ", "--name", " ", '"', name, '"', " ", icon, " ", appcopyright, " ", appversion, " ", electronversion, " ", downloaddialog, " ", widevine, " ", services, " ", internalurls, " ", nooverwrite, " ", conceal, " ", counter, " ", singleinstance, " ", inject, " ")
 
 console.log(commandvariable);
 
