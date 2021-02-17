@@ -8,7 +8,7 @@ console.log(__dirname);
 var argv = require('yargs/yargs')(process.argv.slice(2))
     .usage('Make executable AppImages from any Website URL\n\nUsage: $0 [options]')
     .help('help').alias('help', 'h')
-    .version('version', '1.1.9').alias('version', 'V')
+    .version('version', '1.1.11').alias('version', 'V')
     .options({
         name: {
             alias: 'n',
@@ -161,7 +161,7 @@ console.log("counter:", argv.counter);
 console.log("single instance:", argv.singleinstance)
 console.log("css/js injection:", inject);
 
-var npxnativefier = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp", " ", favicongen, " && ", __dirname, "/node_modules/nativefier/lib/cli.js")
+var npxnativefier = blankstr.concat("mkdir -p ~/appnativefy && cd ~/appnativefy && mkdir -p .appimage-temp", " ", favicongen, " && ", __dirname, "/node_modules/nativefier/lib/cli.js")
 
 ///var commandvariable = npxnativefier.concat(" ", '"', url, '"', " ", "--name", " ", '"', name, '"', " ", widevine, " ", services, " ", singleinstance, " ", inject, " ");
 
@@ -172,11 +172,11 @@ console.log(commandvariable);
 var appimage = " rm style.css && rm -rf icon.png && "
 var appimagescript = appimage.concat(" sh script.sh", " ", name, " ")
 
-var almostfinalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/AppImage-maker/nativefier-appimage-temp', ' && rm -r ~/AppImage-maker/script.sh ')
+var almostfinalvar = commandvariable.concat('&&', appimagescript, ' && rm -r ~/appnativefy/.appimage-temp', ' && rm -r ~/appnativefy/script.sh ')
 
-var downloads = blankstr.concat("mkdir -p ~/AppImage-maker && cd ~/AppImage-maker && mkdir -p nativefier-appimage-temp && cp", " ", __dirname, "/style.css style.css && cp", " ", __dirname, "/script.sh script.sh")
+var downloads = blankstr.concat("mkdir -p ~/appnativefy && cd ~/appnativefy && mkdir -p .appimage-temp && cp", " ", __dirname, "/style.css style.css && cp", " ", __dirname, "/script.sh script.sh")
 
-var endofscript = blankstr.concat("echo ", '"', "AppImage built to ~/AppImage-maker/", name, "-x86_64.AppImage", '"')
+var endofscript = blankstr.concat("echo ", '"', "AppImage built to ~/appnativefy/", name, "-x86_64.AppImage", '"')
 
 var finalvar = blankstr.concat(downloads, " ", "&&", " ", almostfinalvar, " ", "&&", " ", endofscript)
 
@@ -193,5 +193,5 @@ exec(finalvar, (error, stdout, stderr) => {
     console.log(`stdout: ${stdout}`);
 });
 
-var trueendofscript = blankstr.concat("AppImage building to ~/AppImage-maker/", name, "-x86_64.AppImage")
+var trueendofscript = blankstr.concat("AppImage building to ~/appnativefy/", name, "-x86_64.AppImage")
 console.log(trueendofscript);

@@ -1,10 +1,10 @@
 #! /bin/bash
 name=$1
-mkdir ~/AppImage-maker && cd ~/AppImage-maker && mkdir nativefier-appimage-temp
-  mv "$name"-linux-x86_64 nativefier-appimage-temp/"$name".AppDir
-  mv "$name"-linux-x*64 nativefier-appimage-temp/"$name".AppDir
+mkdir ~/appnativefy && cd ~/appnativefy && mkdir .appimage-temp
+  mv "$name"-linux-x86_64 .appimage-temp/"$name".AppDir
+  mv "$name"-linux-x*64 .appimage-temp/"$name".AppDir
 
-cd nativefier-appimage-temp
+cd .appimage-temp
 (
   
   cd "$name".AppDir/  
@@ -22,7 +22,7 @@ else
     if  -f "$anotherfile" ]; then
     cp  /usr/local/lib/node_modules/appnativefy/icon.png resources/app/icon.png
     else
-    wget -c "https://raw.githubusercontent.com/sarweshparajuli/nativefier-appimage/main/icon.png" -O resources/app/icon.png
+    wget -c "https://raw.githubusercontent.com/sarweshparajuli/appnativefy/main/icon.png" -O resources/app/icon.png
     fi
 fi   
 
@@ -44,11 +44,11 @@ fi
   echo "exec \$APPDIR/$name" >> AppRun
   chmod +x ./AppRun
 )
-[ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
-chmod +x /tmp/appimagetool
-/tmp/appimagetool "$name.AppDir"
+[ ! -e ~/appnativefy/.appimagetool/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O ~/appnativefy/.appimagetool/appimagetool
+chmod +x ~/appnativefy/.appimagetool/appimagetool
+~/appnativefy/.appimagetool/appimagetool "$name.AppDir"
 
 cp *.AppImage ../
 cd ..
 
-echo "AppImage built to ~/AppImage-maker/$name-x86_64.AppImage"
+echo "AppImage built to ~/appnativefy/$name-x86_64.AppImage"

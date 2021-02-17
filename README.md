@@ -63,7 +63,7 @@ appnativefy --name <value> --url <website url> <additional options>
 
 It is recommended to pass the values inside double quotes `" "`, so that it may not cause any errors. Also, whitespaces in the value of `--name` will be replaced with hyphens `-`. This means, if the name is supplied as `--name "Hello world"`, it will change into `Hello-world`.
 
-The built AppImage will be found in `~/AppImage-maker`, with the file name: `<name>-x86_64.AppImage`
+The built AppImage will be found in `~/appnativefy`, with the file name: `<name>-x86_64.AppImage`
 #### List of options
 * --help | -h
 ```
@@ -166,27 +166,27 @@ Disables hardware acceleration, in the AppImage.
 ```
 appnativefy --name "Google" --url "https://google.com" --services
 ```
-https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Google-x86_64.AppImage
+https://github.com/sarweshparajuli/appnativefy-gifs/raw/main/examples/Google-x86_64.AppImage
 
 ### Messenger
 ```
 appnativefy --name "Messenger" --url "https://messenger.com" --services --favicon
 ```
-https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Messenger-x86_64.AppImage
+https://github.com/sarweshparajuli/appnativefy-gifs/raw/main/examples/Messenger-x86_64.AppImage
 ### Microsoft Teams
 ```
 appnativefy --name "Microsoft Teams" --url "https://teams.microsoft.com/_" --services --favicon
 ```
-https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Microsoft-Teams-x86_64.AppImage
+https://github.com/sarweshparajuli/appnativefy-gifs/raw/main/examples/Microsoft-Teams-x86_64.AppImage
 ### Spotify
 ```
 appnativefy --name "Spotify" --url "https://open.spotify.com" --services --widevine --favicon
 ```
-https://github.com/sarweshparajuli/appnativefy/raw/main/examples/Spotify-x86_64.AppImage
+https://github.com/sarweshparajuli/appnativefy-gifs/raw/main/examples/Spotify-x86_64.AppImage
 ### YouTube
 ```
 appnativefy --name "YouTube" --url "https://youtube.com" --services
 ```
-https://github.com/sarweshparajuli/appnativefy/raw/main/examples/YouTube-x86_64.AppImage
+https://github.com/sarweshparajuli/appnativefy-gifs/raw/main/examples/YouTube-x86_64.AppImage
 
 --- 
