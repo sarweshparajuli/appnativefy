@@ -44,6 +44,7 @@ fi
   echo "exec \$APPDIR/$name" >> AppRun
   chmod +x ./AppRun
 )
+mkdir -p ~/appnativefy/.appimagetool
 [ ! -e ~/appnativefy/.appimagetool/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O ~/appnativefy/.appimagetool/appimagetool
 chmod +x ~/appnativefy/.appimagetool/appimagetool
 ~/appnativefy/.appimagetool/appimagetool "$name.AppDir"
