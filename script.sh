@@ -1,30 +1,28 @@
 #! /bin/bash
 name=$1
-mkdir ~/appnativefy && cd ~/appnativefy && mkdir .appimage-temp
-  mv "$name"-linux-x86_64 .appimage-temp/"$name".AppDir
-  mv "$name"-linux-x*64 .appimage-temp/"$name".AppDir
-
+dirname=$2
+mkdir -p ~/appnativefy && cd ~/appnativefy && mkdir -p .appimage-temp
 cd .appimage-temp
 (
-  
   cd "$name".AppDir/  
-  
-iconname="icon.png"
+  mkdir -p ~/appnativefy/.appimage-temp/"$name".AppDir/resources/app/inject
+  cp $2/style.css ~/appnaivefy/.appimage-temp/"$name".AppDir/resources/app/inject/style.css
+  iconname="icon.png"
 
   
-echo
+  echo
     anotherfile=/usr/local/lib/node_modules/appnativefy/icon.png
     FILE=resources/app/icon.png
 
-if [ -f "$FILE" ]; then
+  if [ -f "$FILE" ]; then
     echo "$FILE exists."
-else 
+  else 
     if  -f "$anotherfile" ]; then
-    cp  /usr/local/lib/node_modules/appnativefy/icon.png resources/app/icon.png
+      cp  /usr/local/lib/node_modules/appnativefy/icon.png resources/app/icon.png
     else
-    wget -c "https://raw.githubusercontent.com/sarweshparajuli/appnativefy/main/icon.png" -O resources/app/icon.png
+      wget -c "https://raw.githubusercontent.com/sarweshparajuli/appnativefy/main/icon.png" -O resources/app/icon.png
     fi
-fi   
+  fi   
 
   
   cp resources/app/icon.png icon.png
@@ -49,7 +47,12 @@ mkdir -p ~/appnativefy/.appimagetool
 chmod +x ~/appnativefy/.appimagetool/appimagetool
 ~/appnativefy/.appimagetool/appimagetool "$name.AppDir"
 
+
+
 cp *.AppImage ../
 cd ..
-
-echo "AppImage built to ~/appnativefy/$name-x86_64.AppImage"
+rm -r ~/appnativefy/.appimage-temp
+rm -r ~/appnativefy/.script.sh
+if [ -f "~/appnativefy/icon.png" ]; then
+  rm ~/appnativefy/icon.png
+fi
