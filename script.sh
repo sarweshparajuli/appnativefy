@@ -1,6 +1,7 @@
-#! /bin/bash
+#!/usr/bin/env bash
 name=$1
 dirname=$2
+favicon=$3
 mkdir -p ~/appnativefy && cd ~/appnativefy && mkdir -p .appimage-temp
 cd .appimage-temp
 (
@@ -13,6 +14,14 @@ cd .appimage-temp
   echo
     anotherfile=/usr/local/lib/node_modules/appnativefy/icon.png
     FILE=resources/app/icon.png
+    b="true"
+
+  if [ "$favicon" = "$b" ]; then 
+    favicon="https://www.google.com/s2/favicons?sz=64&domain_url="
+    faviconlink=$favicon$4
+
+    wget $faviconlink -O  resources/app/icon.png
+  fi
 
   if [ -f "$FILE" ]; then
     echo "$FILE exists."
@@ -24,7 +33,10 @@ cd .appimage-temp
     fi
   fi   
 
-  
+  cp $dirname/style.css resources/app/inject/inject.css
+
+
+
   cp resources/app/icon.png icon.png
 
   
@@ -53,6 +65,4 @@ cp *.AppImage ../
 cd ..
 rm -r ~/appnativefy/.appimage-temp
 rm -r ~/appnativefy/.script.sh
-if [ -f "~/appnativefy/icon.png" ]; then
-  rm ~/appnativefy/icon.png
-fi
+rm -rf ~/appnativefy/icon.png
