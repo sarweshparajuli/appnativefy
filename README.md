@@ -4,7 +4,7 @@ Appnativefy is an NPM package to make executable AppImage files from any website
 
 ## Why AppImages?
 
-AppImages are cross-distro unlike `.deb` or .`rpm`. Plus, you dont have to face the hassle of individually installing the package, and another hassle while uninstalling.
+AppImages are cross-distro unlike `.deb` or `.rpm`. Plus, you dont have to face the hassle of individually installing the package, and another hassle while uninstalling.
 
 With AppImages, there's no installation required, click-to-run.
 
